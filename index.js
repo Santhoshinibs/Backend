@@ -12,11 +12,17 @@ import uploadRoutes from './routes/uploadRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Fix CORS for Netlify frontend
+app.use(cors({
+  origin: 'https://frontend-ecommercewebsite1.netlify.app',
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Static uploads
-app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')))
+app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')));
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -39,3 +45,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
