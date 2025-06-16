@@ -13,11 +13,16 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Fix CORS for Netlify frontend
-app.use(cors({
+// ✅ Proper CORS Configuration
+const corsOptions = {
   origin: 'https://frontend-ecommercewebsite1.netlify.app',
-  credentials: true
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Preflight handler
 
 app.use(express.json());
 
